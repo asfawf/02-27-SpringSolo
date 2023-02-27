@@ -23,8 +23,7 @@ public class BoardController {
 		
 		@RequestMapping(value = "/list", method = RequestMethod.GET)
 		public void viewListBoard( Model model) {
-		//	model.addAttribute("boardlist", service.selectList());
-			return;
+			model.addAttribute("boardlist", service.selectList());
 		}
 		
 //		@RequestMapping(value = "/board/update", method = RequestMethod.GET)
