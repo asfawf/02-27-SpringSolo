@@ -8,6 +8,7 @@
 </head>
 <body>
 board / list . jsp
+<hr>
 ${boardlist }
 </body>
 </html>
