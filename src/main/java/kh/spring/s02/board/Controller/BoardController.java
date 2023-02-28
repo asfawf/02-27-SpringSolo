@@ -8,6 +8,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -48,31 +50,24 @@ public class BoardController {
 			return;
 		}
 
-		//		@RequestMapping(value = "/board/insert", method = RequestMethod.GET)
-		@RequestMapping(value = "/insert", method = RequestMethod.GET)
-		public void viewInsertBoard(
+		@GetMapping("/insertPostTest")
+		public ModelAndView viewInsertBoard(
 				ModelAndView mv
 				, HttpServletRequest req
 				, HttpSession session
 				, BoardVo vo
 				) {
-//			HttpSession session2 = req.getSession();
-//			session2.setAttribute("lgnss", "값");
-//			
-//			ModelAndView mv1 = new ModelAndView();
-//			mv1.setViewName("insert");
-			
-//			mv.addObject("test", "test value");
-//			mv.setViewName("boardinsert");
-//			return mv;
-//			return "boardinsert";
-			return;
+			mv.setViewName("board/insert");
+			return mv;
 		}
 		
-//		@RequestMapping(value = "/board/insert", method = RequestMethod.POST)
-		@RequestMapping(value = "/insert", method = RequestMethod.POST)
-		//@PostMapping("/boardinsert")
-		public ModelAndView doInsertBoard(ModelAndView mv) {
+		@PostMapping("/insert")
+		public ModelAndView doInsertBoard(ModelAndView mv, BoardVo vo ) {
+			vo.setBoardContent("임시내용");
+			vo.setBoardTitle("임시제목");
+			vo.setBoardWriter("user11");
+			
+			int result = service.insert(vo);
 			
 			return mv;
 		}

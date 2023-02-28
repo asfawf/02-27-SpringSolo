@@ -71,7 +71,7 @@ public class AdviceLog {
 		stopwatch.start();
 				
 		returnObj = jp.proceed();
-		stopwatch.start();
+		stopwatch.stop();
 		
 		logger.info("Ctrl Return : ["+ stopwatch.getTotalTimeMillis() + "] : " + returnObj);
 		
