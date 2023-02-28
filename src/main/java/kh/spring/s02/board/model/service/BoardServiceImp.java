@@ -25,8 +25,8 @@ public class BoardServiceImp implements BoardService{
 	}
 
 	@Override
-	public int delete(BoardVo vo) {
-		return dao.delete(vo);
+	public int delete(int num) {
+		return dao.delete(num);
 	}
 
 	@Override

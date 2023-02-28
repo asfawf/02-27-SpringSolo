@@ -34,8 +34,8 @@ public class BoardDao {
 		return sqlSession.update("boardns.updateForReply", boardNum);
 		
 	}
-	public int delete(BoardVo vo) {
-		return sqlSession.delete("boardns.delete", vo);
+	public int delete(int num) {
+		return sqlSession.delete("boardns.deleteid", num);
 	} 
 
 	

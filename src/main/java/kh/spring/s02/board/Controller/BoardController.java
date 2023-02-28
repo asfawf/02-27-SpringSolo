@@ -38,16 +38,21 @@ public class BoardController {
 			
 		}
 		
-//		@RequestMapping(value = "/board/delete", method = RequestMethod.GET)
-		@RequestMapping(value = "/delete", method = RequestMethod.GET)
+		@GetMapping("/delete")
 		public void viewDeleteBoard() {
+			int boardNum= 10;
+			int result = service.delete(boardNum);
+			
 			return;
 		}
 		
-//		@RequestMapping(value = "/board/read", method = RequestMethod.GET)
-		@RequestMapping(value = "/read", method = RequestMethod.GET)
+		@GetMapping("/read")
 		public void viewReadBoard() {
-			return;
+			//TODO
+			int boardNum = 1 ;
+			String writer = "user22";
+			BoardVo vo = service.selectOne(boardNum, writer);
+			 
 		}
 
 		@GetMapping("/insertPostTest")

@@ -11,7 +11,7 @@ public interface BoardService {
 	public int update(BoardVo vo);
 //	public int updateReadCount(int boardNum);
 //	public int updateForReply(int boardNum);
-	public int delete(BoardVo vo);
+	public int delete(int num);
 	public BoardVo selectOne(int boardNum /* PK 사용*/, String writer);
 	public List<BoardVo> selectList();
 	public int selectOneCount();

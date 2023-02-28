@@ -64,7 +64,7 @@ public class AdviceLog {
 		// args ==> Locale locale, Model model, HttpSession session
 		
 		for(int i=0; i< args.length; i++) {
-			logger.info("args[" + i + "]: " + args[i]);
+			logger.info("▶args[" + i + "]: " + args[i]);
 		}
 		
 		StopWatch stopwatch = new StopWatch();
@@ -73,7 +73,7 @@ public class AdviceLog {
 		returnObj = jp.proceed();
 		stopwatch.stop();
 		
-		logger.info("Ctrl Return : ["+ stopwatch.getTotalTimeMillis() + "] : " + returnObj);
+		logger.info("▶ Ctrl Return : ["+ stopwatch.getTotalTimeMillis() + "] : " + returnObj);
 		
 		return returnObj;
 	}
@@ -87,7 +87,7 @@ public class AdviceLog {
 		// args ==> Locale locale, Model model, HttpSession session
 		
 		for(int i=0; i< args.length; i++) {
-			logger.info("args[" + i + "]: " + args[i]);
+			logger.info("▶▶▶ args[" + i + "]: " + args[i]);
 		}
 		
 		//걸리는 시간 측정
@@ -98,7 +98,7 @@ public class AdviceLog {
 		returnObj = pjp.proceed();
 		stopwatch.stop();
 		
-		logger.info("Dao Return : ["+ stopwatch.getTotalTimeMillis() + "] : " + returnObj);
+		logger.info("▶▶▶ Dao Return : ["+ stopwatch.getTotalTimeMillis() + "] : " + returnObj);
 		
 		
 		return returnObj;
@@ -113,7 +113,7 @@ public class AdviceLog {
 		// args ==> Locale locale, Model model, HttpSession session
 		
 		for(int i=0; i< args.length; i++) {
-			logger.info("args[" + i + "]: " + args[i]);
+			logger.info("▶▶ args[" + i + "]: " + args[i]);
 		}
 		
 		//걸리는 시간 측정
@@ -124,7 +124,7 @@ public class AdviceLog {
 		returnObj = pjp.proceed();
 		stopwatch.stop();
 		
-		logger.info("Srvc Return : ["+ stopwatch.getTotalTimeMillis() + "] : " + returnObj);
+		logger.info("▶▶ Srvc Return : ["+ stopwatch.getTotalTimeMillis() + "] : " + returnObj);
 		
 		
 		return returnObj;

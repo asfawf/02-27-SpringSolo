@@ -2,9 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
  <mapper namespace="boardns">
 
-		<insert id="insertid">
+		<insert id="insertid" parameterType="kh.spring.s02.board.model.vo.BoardVo">
 			insert into board values
 			(
+			<!-- #== String 형태, $== Int 형태 하지만 Oracle 에서는 34 나 '34' 나 같은 취급이기 때문에  -->
 				(select NVL(MAX(BOARD_NUM), 0)+1 from board)
 				, #{boardTitle}
 				, #{boardWriter}
@@ -27,7 +28,7 @@
 				, board_Date = SYSDATE
 				where board_Num = #{boardNum}
 		</update>
-		<update id="updateReadCount">
+		<update id="updateReadCount" parameterType="int">
 			update board set
 				board_Readcount = board_Readcount+1
 				where board_Num = #{boardNum}
