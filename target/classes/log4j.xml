@@ -7,6 +7,7 @@
 		<param name="Target" value="System.out" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
+			<!-- %-5p: %c - %m%n : -5 왼쪽정렬 5개의 칸 -->
 		</layout>
 	</appender>
 	
@@ -34,8 +35,22 @@
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="warn" />
+		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
+	<!-- 
+	Debug 순서(상하관계 ?)
+		fatal
+		error
+		warn
+		info
+		debug
+		trace
+	
+	
+	
+	
+	 -->	
+
 	
 </log4j:configuration>

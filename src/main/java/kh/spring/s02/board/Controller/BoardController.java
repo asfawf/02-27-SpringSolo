@@ -28,9 +28,14 @@ public class BoardController {
 		
 //		@RequestMapping(value = "/board/update", method = RequestMethod.GET)
 		@RequestMapping(value = "/update", method = RequestMethod.GET)
-		public void viewUpdateBoard() {
-			return;
+		public ModelAndView viewUpdateBoard(ModelAndView mv) {
+			System.out.println("board list controller!!!!");
+			mv.addObject("boardlist", service.selectList());
+			mv.setViewName("board/list");
+			return mv;
+			
 		}
+		
 //		@RequestMapping(value = "/board/delete", method = RequestMethod.GET)
 		@RequestMapping(value = "/delete", method = RequestMethod.GET)
 		public void viewDeleteBoard() {
