@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -25,7 +27,7 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model, HttpSession session) {
+	public String home(Locale locale, Model model, HttpSession session, HttpServletRequest req, HttpServletResponse resp) {
 		
 		
 		logger.error("error Welcome home!", locale);
@@ -44,7 +46,10 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate );
-		
+
+		//이거 가능
+		req.setAttribute("hello", "안녕하세요");
+				
 		return "home";
 	}
 	

@@ -4,9 +4,12 @@
 	<settings>
 		<!-- null -->
 		<setting name="jdbcTypeForNull" value="NULL"/>
-		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<!-- <setting name="mapUnderscoreToCamelCase" value="true"/> -->
 	</settings>
-	
+	<typeAliases>
+		<!-- kh.spring.s02.board.model.vo.BoardVo 이것의 단축키를 bvo 로 지정하는 문구 -->
+		<typeAlias type="kh.spring.s02.board.model.vo.BoardVo" alias="bvo"/>
+	</typeAliases>
 	<mappers>
 	 	<mapper resource="mappers/mapper.xml"/>
 	</mappers>

@@ -1,5 +1,6 @@
 package kh.spring.s02.board.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -36,6 +37,25 @@ public class BoardDao {
 		return sqlSession.update("boardns.updateForReply", boardNum);
 		
 	}
+
+	// 여러가지의 타입을 저장하고 싶으면 Object	
+	public List<BoardVo> tempSelect() {
+		//board-update ("namespace.update 의 id")
+		//return sqlSession.selectList("boardns.tempSelect");
+		/*
+		 * List<HashMap<String , Object>> listmap=
+		 * sqlSession.selectList("boardns.tempSelect"); for (HashMap<String , Object>
+		 * map : listmap) { System.out.println((String)map.get("boardDate")); }
+		 */
+		
+		List<BoardVo> volist= sqlSession.selectList("boardns.tempSelect");
+		for (BoardVo vo : volist) {
+			System.out.println(vo.getBoardDate());
+		}
+		// property = key = attribute = column =field
+		return volist;
+	}
+	
 	public int delete(int num) {
 		return sqlSession.delete("boardns.deleteid", num);
 	} 

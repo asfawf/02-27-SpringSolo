@@ -31,7 +31,7 @@ public class BoardController {
 		public final static int page_LIMIT = 3; // 화면 하단에 몇개의 페이지 번호를 나타낼건지 ex) << 1 2 3 >> 
 		
 		@RequestMapping(value = "/list", method = RequestMethod.GET)
-		public ModelAndView viewListBoard( ModelAndView mv) {
+		public ModelAndView viewListBoard( ModelAndView mv, HttpServletRequest req) {
 			
 			
 			// current , limit / 2 ==> A , current - A = start,  current + A = end
@@ -56,14 +56,20 @@ public class BoardController {
 			
 			// 이걸 사용할 경우 jsp 에서 ${}로 지칭 가능
 			mv.addObject("pageInfo", map); // setAttribute
-			
-			
+						
 			/*
-			 * mv.addObject("totalPage", totalPage); mv.addObject("currentPage",
-			 * currentPage); mv.addObject("startPage", startPage); mv.addObject("endPage",
-			 * endPage);
+			 * mv.addObject("totalPage", totalPage); 
+			 * mv.addObject("currentPage",currentPage); 
+			 * mv.addObject("startPage", startPage); 
+			 * mv.addObject("endPage", endPage);
 			 */
 			
+			/*
+			 * req.setAttribute("totalPage", totalPage); req.setAttribute("startPage",
+			 * startPage); req.setAttribute("endPage", endPage);
+			 * req.setAttribute("currentPage", currentPage);
+			 * 
+			 */
 			// 이걸 사용할 경우 jsp 에서 ${}로 지칭 가능
 			mv.addObject("boardlist", service.selectList(currentPage, BOARD_LIMIT) );
 			

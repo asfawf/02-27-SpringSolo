@@ -24,6 +24,16 @@ board / list . jsp
 		</c:if>
 	</c:forEach>
 <hr>
+<%-- 
+
+<hr>
+	<c:forEach begin="${startPage }" end="${endPage }" var="page">		
+		${page }
+		<c:if test="${endPage != page }">
+		,
+		</c:if>
+	</c:forEach>
+<hr> --%>
 
 </body>
 </html>
