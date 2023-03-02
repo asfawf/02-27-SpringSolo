@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
  <mapper namespace="boardns">
 
+		<!--   -->
+
 		<insert id="insertid" parameterType="kh.spring.s02.board.model.vo.BoardVo">
 			insert into board values
 			(
@@ -23,14 +25,17 @@
 			update board set
 				board_Title = #{boardTitle}
 				, board_Content = #{boardContent}
-				<if test="!boardOriginalFilename equals('')">
+				<!-- 여기서 'test =' 에 작성하게 되는  변수 혹은 함수 명은 Controller 에서 vo 에 대입한 변수명으로 정한다. -->
+				<if test="boardOriginalFilename != null and boardOriginalFilename neq ''.toString() ">
 					, board_Original_Filename = #{boardOriginalFilename}
 				</if>
-				<if test="boardOriginalFilename equals('')">
+				<!-- 여기서 'test =' 에 작성하게 되는  변수 혹은 함수 명은 Controller 에서 vo 에 대입한 변수명으로 정한다. ex) if test="boardOriginalFilename eq '' -->
+				<if test="boardOriginalFilename == null or boardOriginalFilename eq '' ">
 					, board_Original_Filename = null
 				</if>
 				<choose>
-					<when test="!board_Rename_Filename equals('')">
+					<!-- 여기서 'test =' 에 작성하게 되는  변수 혹은 함수 명은 Controller 에서 vo 에 대입한 변수명으로 정한다. ex)!boardRenameFilename.equals('') -->
+					<when test=" boardOriginalFilename != null and !boardRenameFilename.equals('') ">
 						, board_Rename_Filename = #{boardRenameFilename}
 					</when>
 					<otherwise>
