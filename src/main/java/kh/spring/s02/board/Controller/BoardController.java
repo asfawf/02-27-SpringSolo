@@ -55,7 +55,7 @@ public class BoardController {
 			 
 		}
 
-		@GetMapping("/insertPostTest")
+		@GetMapping("/insert")
 		public ModelAndView viewInsertBoard(
 				ModelAndView mv
 				, HttpServletRequest req
@@ -66,11 +66,14 @@ public class BoardController {
 			return mv;
 		}
 		
-		@PostMapping("/insert")
-		public ModelAndView doInsertBoard(ModelAndView mv, BoardVo vo ) {
+		@GetMapping("/insertPostTest")
+		public ModelAndView doInsertBoard(
+				ModelAndView mv
+				, BoardVo vo 
+				) {
 			vo.setBoardContent("임시내용");
 			vo.setBoardTitle("임시제목");
-			vo.setBoardWriter("user11");
+			vo.setBoardWriter("user22");
 			
 			int result = service.insert(vo);
 			

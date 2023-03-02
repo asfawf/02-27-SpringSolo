@@ -15,7 +15,7 @@ public class BoardDao {
 	private SqlSession sqlSession;
 	
 	public int insert(BoardVo vo) {
-		return sqlSession.insert("boardns.inserid", vo);
+		return sqlSession.insert("boardns.insertid", vo);
 	}
 	
 	public int update(BoardVo vo) {
