@@ -23,8 +23,20 @@
 			update board set
 				board_Title = #{boardTitle}
 				, board_Content = #{boardContent}
-				, board_Original_Filename = #{boardOriginalFilename}
-				, board_Rename_Filename = #{boardRenameFilename}
+				<if test="!boardOriginalFilename equals('')">
+					, board_Original_Filename = #{boardOriginalFilename}
+				</if>
+				<if test="boardOriginalFilename equals('')">
+					, board_Original_Filename = null
+				</if>
+				<choose>
+					<when test="!board_Rename_Filename equals('')">
+						, board_Rename_Filename = #{boardRenameFilename}
+					</when>
+					<otherwise>
+						, board_Rename_Filename = null
+					</otherwise>
+				</choose>				
 				, board_Date = SYSDATE
 				where board_Num = #{boardNum}
 		</update>

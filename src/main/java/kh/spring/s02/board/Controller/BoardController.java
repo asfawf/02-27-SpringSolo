@@ -38,6 +38,28 @@ public class BoardController {
 			
 		}
 		
+		
+		@GetMapping("/updatePostTest")
+		public void updateBoard() {
+			int result = -1;
+
+			int boardNum = 1;
+			String boardTitle = "수정내용" ;
+			String boardContent = "수정제목" ;
+			String boardOriginalFilename = ""; // "" ==> 저 상태면(아무것도 없으면) 파일 삭제  혹은 파일없음
+			String boardRenameFilename = ""; // "" ==> 저 상태면(아무것도 없으면) 파일 삭제  혹은 파일없음
+			
+			BoardVo vo = new BoardVo();
+			
+			vo.setBoardContent(boardContent);
+			vo.setBoardTitle(boardTitle);
+			vo.setBoardNum(boardNum);
+			vo.setBoardOriginalFilename(boardOriginalFilename);
+			vo.setBoardRenameFilename(boardRenameFilename);
+			
+			result = service.update(vo);
+		}
+		
 		@GetMapping("/delete")
 		public void viewDeleteBoard() {
 			int boardNum= 10;
