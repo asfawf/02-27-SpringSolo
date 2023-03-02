@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
  <mapper namespace="boardns">
-
-		<!--   -->
-
 		<insert id="insertid" parameterType="kh.spring.s02.board.model.vo.BoardVo">
 			insert into board values
 			(
-			<!-- #== String 형태, $== Int 형태 하지만 Oracle 에서는 34 나 '34' 나 같은 취급이기 때문에  -->
-				(select NVL(MAX(BOARD_NUM), 0)+1 from board)
-				, #{boardTitle}
-				, #{boardWriter}
-				, #{boardContent}    
-				, #{boardOriginalFilename}
-				, #{boardRenameFilename}
-				, default
-				, DEFAULT 
-				, (select NVL(MAX(BOARD_NUM), 0)+1 from board)
-				, DEFAULT
-				, DEFAULT
+				
+					(select NVL(MAX(BOARD_NUM), 0)+1 from board)
+					<!-- #== String 형태, $== Int 형태 하지만 Oracle 에서는 34 나 '34' 나 같은 취급이기 때문에  -->
+					, #{boardTitle}
+					, #{boardWriter}
+					, #{boardContent}    
+					, #{boardOriginalFilename}
+					, #{boardRenameFilename}
+					, default
+					<choose>
+						<when test="boardNum != 0">
+							,	(select board_level+1 from BOARD where board_num=  #{boardNum})
+							,	(select BOARD_REF from BOARD where board_num= #{boardNum})
+							,	(select BOARD_REPLY_SEQ+1 from BOARD where board_num=  #{boardNum})
+						</when>
+						<otherwise>
+							, DEFAULT 
+							, (select NVL(MAX(BOARD_NUM), 0)+1 from board)
+							, DEFAULT
+						</otherwise>
+					</choose>
+					, DEFAULT
 			)
 		</insert>
 		<update id="updateid">
@@ -35,7 +42,7 @@
 				</if>
 				<choose>
 					<!-- 여기서 'test =' 에 작성하게 되는  변수 혹은 함수 명은 Controller 에서 vo 에 대입한 변수명으로 정한다. ex)!boardRenameFilename.equals('') -->
-					<when test=" boardOriginalFilename != null and !boardRenameFilename.equals('') ">
+					<when test="boardRenameFilename != null and !boardRenameFilename.equals('')">
 						, board_Rename_Filename = #{boardRenameFilename}
 					</when>
 					<otherwise>
@@ -63,9 +70,13 @@
 			select * from board where board_Num = #{boardNum}
 		</select>
 		<select id="selectListid" resultType="kh.spring.s02.board.model.vo.BoardVo">
-			select * from board
+			select BOARD_NUM,BOARD_TITLE, BOARD_WRITER, BOARD_CONTENT 
+                            , BOARD_ORIGINAL_FILENAME, BOARD_RENAME_FILENAME,BOARD_DATE 
+                            , BOARD_LEVEL, BOARD_REF, BOARD_REPLY_SEQ,BOARD_READCOUNT 
+                from board 
+                order by board_ref desc, board_reply_seq asc
 		</select>
-		<select id="selectOneCount" resultType="string">
+		<select id="selectOneCount" resultType="_int">
 			select count(*) cnt from board
 		</select>
 

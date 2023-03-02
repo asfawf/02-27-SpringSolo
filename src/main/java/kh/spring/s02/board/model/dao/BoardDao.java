@@ -2,11 +2,13 @@ package kh.spring.s02.board.model.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kh.spring.s02.board.Controller.BoardController;
 import kh.spring.s02.board.model.vo.BoardVo;
 
 @Repository
@@ -48,6 +50,14 @@ public class BoardDao {
 	public List<BoardVo> selectList() {
 		//board-selectList ("namespace.insert 의 id")
 		return sqlSession.selectList("boardns.selectListid");
+		
+	}
+	
+	public List<BoardVo> selectList(int currentPage, int limit) {
+		
+		int offset= (currentPage-1)*limit ;
+		RowBounds rb= new RowBounds(offset, limit); // 현재 페이지 , 1페이지에서 보일 리스트 개수
+		return sqlSession.selectList("boardns.selectListid", null , rb);
 		
 	}
 	

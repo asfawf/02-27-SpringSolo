@@ -13,8 +13,8 @@ public class BoardVo {
 	private String boardOriginalFilename;
 	private String boardRenameFilename;
 	private Date boardDate;
-	private int boardLevel;
-	private int boardRef;
+	private int boardLevel; // 
+	private int boardRef; // 원본글의 번호 
 	private int boardReplySeq;
 	private int boardReadcount;
 
