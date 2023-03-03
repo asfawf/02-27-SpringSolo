@@ -76,14 +76,33 @@ public class BoardDao {
 	public List<BoardVo> selectList(int currentPage, int limit) {
 		
 		int offset= (currentPage-1)*limit ;
+		
 		RowBounds rb= new RowBounds(offset, limit); // 현재 페이지 , 1페이지에서 보일 리스트 개수
+		
 		return sqlSession.selectList("boardns.selectListid", null , rb);
+		
+	}
+	
+	
+public List<BoardVo> selectList(int currentPage, int limit, String searchWord) {
+		
+		int offset= (currentPage-1)*limit ;
+		
+		RowBounds rb= new RowBounds(offset, limit); // 현재 페이지 , 1페이지에서 보일 리스트 개수
+		
+		return sqlSession.selectList("boardns.selectListid",searchWord, rb);
 		
 	}
 	
 	public int selectOneCount() {
 		//board-selectList ("namespace.selectOneCount 의 id")
 		return sqlSession.selectOne("boardns.selectOneCount");
+		
+	}
+	
+	public int selectOneCount(String searchWord) {
+		//board-selectList ("namespace.selectOneCount 의 id")
+		return sqlSession.selectOne("boardns.selectOneCount", searchWord);
 		
 	}
 }

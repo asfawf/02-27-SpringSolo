@@ -60,6 +60,9 @@ public class AdviceLog {
 	public Object aroundControllerPointCut(ProceedingJoinPoint jp)throws Throwable {
 
 		Object returnObj = null;
+		
+		logger.info("▶Ctrl: "+ jp.getThis()+ jp.getSignature().getName());
+		
 		Object[] args= jp.getArgs();
 		// args ==> Locale locale, Model model, HttpSession session
 		
@@ -82,6 +85,8 @@ public class AdviceLog {
 	public Object aroundDaoPointCut(ProceedingJoinPoint pjp) throws Throwable{
 		// @Around 는 void 가 아닌 Object 사용 + JoinPoint 가 아닌 ProceedingJoinPoint 사용
 		Object returnObj = null;
+		
+		logger.info("▶▶▶Dao: "+ pjp.getThis()+ pjp.getSignature().getName());
 		
 		Object[] args= pjp.getArgs();
 		// args ==> Locale locale, Model model, HttpSession session
@@ -108,6 +113,8 @@ public class AdviceLog {
 	public Object aroundServicePointCut(ProceedingJoinPoint pjp) throws Throwable{
 		// @Around 는 void 가 아닌 Object 사용 + JoinPoint 가 아닌 ProceedingJoinPoint 사용
 		Object returnObj = null;
+		
+		logger.info("▶▶Service: "+ pjp.getThis()+ pjp.getSignature().getName());
 		
 		Object[] args= pjp.getArgs();
 		// args ==> Locale locale, Model model, HttpSession session

@@ -27,17 +27,23 @@ public class BoardController {
 		@Autowired
 		private BoardService service;
 		
-		public final static int BOARD_LIMIT = 5;  // 현재 페이지에서 보이게 하고 싶은 글의 개수
+		public final static int BOARD_LIMIT = 3;  // 현재 페이지에서 보이게 하고 싶은 글의 개수
 		public final static int page_LIMIT = 3; // 화면 하단에 몇개의 페이지 번호를 나타낼건지 ex) << 1 2 3 >> 
 		
 		@RequestMapping(value = "/list", method = RequestMethod.GET)
 		public ModelAndView viewListBoard( ModelAndView mv, HttpServletRequest req) {
-			
+		
+			//TODO 
+			// 검색단어는 제목 + 내용에서 + 작성자에서 비슷한 (포함)
+			// null 혹은 ' ' 검색하지 않음
+			//String searchWord = " ";
+			//String searchWord = null;
+			String searchWord = "a";			
 			
 			// current , limit / 2 ==> A , current - A = start,  current + A = end
 			// 현재 페이지 번호
-			int currentPage = 3;
-			int totalCnt = service.selectOneCount();
+			int currentPage = 1;
+			int totalCnt = service.selectOneCount(searchWord);
 			int totalPage = (totalCnt%BOARD_LIMIT==0)?
 					(totalCnt/BOARD_LIMIT) : 
 					(totalCnt/BOARD_LIMIT) + 1;
@@ -70,9 +76,9 @@ public class BoardController {
 			 * req.setAttribute("currentPage", currentPage);
 			 * 
 			 */
+		
 			// 이걸 사용할 경우 jsp 에서 ${}로 지칭 가능
-			mv.addObject("boardlist", service.selectList(currentPage, BOARD_LIMIT) );
-			
+			mv.addObject("boardlist", service.selectList(currentPage, BOARD_LIMIT, searchWord) );
 			mv.setViewName("board/list");
 			
 			return mv;

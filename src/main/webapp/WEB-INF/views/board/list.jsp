@@ -12,10 +12,10 @@ board / list . jsp
 <hr>
 [${boardlist }]
 
-<c:forEach items="${boardlist }" var="board">
+<%-- <c:forEach items="${boardlist }" var="board">
 	${board.boardNum}<br>
 </c:forEach>
-
+ --%>
 <hr>
 	<c:forEach begin="${pageInfo.startPage }" end="${pageInfo.endPage }" var="page">		
 		${page }
@@ -24,7 +24,9 @@ board / list . jsp
 		</c:if>
 	</c:forEach>
 <hr>
+
 <%-- 
+
 
 <hr>
 	<c:forEach begin="${startPage }" end="${endPage }" var="page">		
