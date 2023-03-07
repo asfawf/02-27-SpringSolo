@@ -13,10 +13,16 @@ public interface BoardService {
 //	public int updateForReply(int boardNum);
 	public int delete(int num);
 	public BoardVo selectOne(int boardNum /* PK 사용*/, String writer);
+	
+	
 	public List<BoardVo> selectList(); //전체읽기
 	public List<BoardVo> selectList(int currentPage , int limit); // paging 처리
 	public List<BoardVo> selectList(int currentPage , int limit, String searchWord); // paging 처리+ search
+	
 	public int selectOneCount();
 	public int selectOneCount(String searchWord);
+	
+	public List<BoardVo> selectReplyList(int boardNum); // 특정 글의  댓글 읽기 전체읽기
+	public List<BoardVo> selectReplyList(int boardNum, int currentPage , int limit); // 특정 글의  댓글 paging 처리
 	
 }

@@ -16,12 +16,11 @@
 		<result column="board_Reply_Seq" property="boardReplySeq"/>
 		<result column="board_Readcount" property="boardReadcount"/>
 	</resultMap>
+	<resultMap type="bvo" id="rsMap">
+ 			<result column="sdate" property="boardDate" />
+ 			<result column="board_num" property="boardRef" />
+ 		</resultMap>
 
-		
-	<resultMap type="bvo" id="rsMap" >
-		<result column="sdate" property="boardDate"/>
-		<result column="board_num" property="boardRef"/>
-	</resultMap>
 
 	<!-- 아래의 resultType은 bvo 즉 BoardVo -->
 	<select id="tempSelect" resultMap="rsMap">
@@ -118,6 +117,15 @@
 		</trim> 
         order by board_ref desc, board_reply_seq asc
 	</select>
+
+	<select id="selectReplyList" resultMap="bvoMap">
+	select * from board 
+		where BOARD_LEVEL > (select BOARD_LEVEL from board where board_Num=#{board_Num} )
+			and BOARD_REF = (select BOARD_REF from board where board_Num=#{board_Num} )
+			and BOARD_REPLY_SEQ > (select BOARD_REPLY_SEQ from board where board_Num=#{board_Num} )
+		order by BOARD_REPLY_SEQ asc
+</select>
+
 
 <!-- 
 		

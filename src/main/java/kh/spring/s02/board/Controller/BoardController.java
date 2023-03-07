@@ -2,6 +2,7 @@ package kh.spring.s02.board.Controller;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
 
 import kh.spring.s02.board.model.service.BoardService;
 import kh.spring.s02.board.model.vo.BoardVo;
@@ -131,10 +134,14 @@ public class BoardController {
 				) {
 			//TODO
 			String writer = "user22";
-			BoardVo vo = service.selectOne(boardNum, writer);
-			 mv.addObject("board", vo);
-			 mv.setViewName("board/read");
 			
+			BoardVo vo = service.selectOne(boardNum, writer);
+			mv.addObject("board", vo);
+			
+			List<BoardVo> replyList = service.selectReplyList(boardNum);
+			mv.addObject("replyList", replyList);
+						
+			mv.setViewName("board/read");			
 			return mv;
 		}
 
@@ -209,9 +216,15 @@ public class BoardController {
 				vo.setBoardWriter("user11");
 			//mv.setViewName("board/insert"); 이게 return 값의 주소를 정하게 되는 구문 
 			
+			// 답글 작성
 			service.insert(vo);
 			
-			return "ok";
+			// 연관된 답글들 조회해서  ajax 로 return 하지만 mv 로 싣는건 불가
+			List<BoardVo> replyList = service.selectReplyList(vo.getBoardNum());
+			//mv.addObject("replyList", replyList);
+			
+			
+			return new Gson().toJson(replyList);
 		}
 		
 		

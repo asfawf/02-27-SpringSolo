@@ -32,6 +32,33 @@ ${board.boardContent}
 		<button type="reset" class="btn reset">초기화</button>
 	</fieldset>
 </form>
+<hr>
+
+<table border="1">
+	<thead> 
+		<tr>
+			<td>글번호</td>
+			<td>제목</td>
+			<td>작성자</td>
+			<td>작성일</td>
+			<td>조회수</td>
+		</tr>
+	</thead>
+	<tbody>
+		<c:forEach items="${replyList }" var="reply">
+			<tr>
+				<td>${reply.boardNum} </td>
+				<td>${reply.boardTitle} </td>
+				<td>${reply.boardWriter} </td>
+				<td>${reply.boardDate} </td>
+				<td>${reply.boardReadcount} </td>
+			</tr>
+		</c:forEach>
+		
+	</tbody>
+</table>
+	
+	
 	
 <script>
 
@@ -50,22 +77,48 @@ function replyClickHandler(){
 		, type: "post"
 		, data: $("#frmReply").serialize()
 		// data: {boardTitle: $("#a").val(), boardContent: $("#b").val() , boardNum: '${board.boardNum}'}
+		,dataType: "json" // success 에 들어오는 데이터가 json 모양일것이고 이것을 js object 로 변형해서 return 값을 변형해라 
 		, success: function(result){
 			console.log(result);
+			console.log(result[0]);
+			console.log(result[0].boardDate);
 			//$("#frmReply")[0].reset();
 			frmReply.reset();
-			if(result == "ok"){
+			if(result.length > 0){
 				alert("작성 완료")
 			}else{
 				alert("작성 실패")
 			}
+			
+			// 답글 부분 화면 업데이트 + 호출
+			dispaltRelpy(result);
 		}
 		, error: function(){
 			
 		}
 	});
-
 }
+
+		//답글 부분 화면 업데이트 + 응답
+		function dispaltRelpy(result){
+			
+			
+			var htmlVal = '';
+			for(i = 0; i< result.length; i++){
+				var reply = result[i];
+				htmlVal += '<tr>';
+				htmlVal += '<td>'+reply.boardNum+'</td>';
+				htmlVal += '<td><a href="<%=request.getContextPath()%>/board/read?boardNum='+reply.boardNum+'">'+reply.boardTitle+'</a></td>';
+				htmlVal += '<td>'+reply.boardWriter+'</td>';
+				htmlVal += '<td>'+reply.boardDate+'</td>';
+				htmlVal += '<td>'+reply.boardReadcount+'</td>';
+				htmlVal += '</tr>';
+			}
+			$("tbody").html(htmlVal);
+			
+		}
+
+
 </script>
 
 </body>

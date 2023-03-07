@@ -105,4 +105,8 @@ public List<BoardVo> selectList(int currentPage, int limit, String searchWord) {
 		return sqlSession.selectOne("boardns.selectOneCount", searchWord);
 		
 	}
+
+	public List<BoardVo> selectReplyList(int boardNum) {
+		return sqlSession.selectList("boardns.selectReplyList",boardNum);
+	}
 }
