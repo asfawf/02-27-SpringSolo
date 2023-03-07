@@ -12,10 +12,17 @@ board / list . jsp
 <hr>
 [${boardlist }]
 
-<%-- <c:forEach items="${boardlist }" var="board">
-	${board.boardNum}<br>
+ <c:forEach items="${boardlist }" var="board">
+	<tr>
+		<td>${board.boardNum} </td>
+		<td><a href="<%=request.getContextPath()%>/board/read?boardNum=${board.boardNum}"/> ${board.boardTitle} </td>
+		<td>${board.boardWriter}  </td>
+		<td>${board.boardDate}  </td>
+		<td>${board.boardReadcount}  </td>
+	</tr>
+
 </c:forEach>
- --%>
+
 <hr>
 	<c:forEach begin="${pageInfo.startPage }" end="${pageInfo.endPage }" var="page">		
 		${page }

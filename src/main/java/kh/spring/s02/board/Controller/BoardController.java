@@ -1,5 +1,6 @@
 package kh.spring.s02.board.Controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kh.spring.s02.board.model.service.BoardService;
@@ -24,64 +27,61 @@ import kh.spring.s02.board.model.vo.BoardVo;
 @RequestMapping("/board")
 public class BoardController {
 		
-		@Autowired
-		private BoardService service;
+	@Autowired
+	private BoardService service;
+	
+	private final static int BOARD_LIMIT = 5; 
+	private final static int PAGE_LIMIT = 3;
+	
+	@RequestMapping(value = "/list")
+//	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView viewListBoard( ModelAndView mv, HttpServletRequest req) {
+		// TODO
+		// 검색단어는 제목,내용,작성자에서 포함되어있으면 찾기
+		// null 또는 "" 은 검색하지 않음.
+//		String searchWord = null;  
+//		String searchWord = "";  
+		String searchWord = "답";
+
+		try {
+			req.setCharacterEncoding("UTF-8");
+			searchWord = req.getParameter("searchWord");
+			System.out.println("한글 확인: "+ searchWord);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		
-		public final static int BOARD_LIMIT = 3;  // 현재 페이지에서 보이게 하고 싶은 글의 개수
-		public final static int page_LIMIT = 3; // 화면 하단에 몇개의 페이지 번호를 나타낼건지 ex) << 1 2 3 >> 
 		
-		@RequestMapping(value = "/list", method = RequestMethod.GET)
-		public ModelAndView viewListBoard( ModelAndView mv, HttpServletRequest req) {
 		
-			//TODO 
-			// 검색단어는 제목 + 내용에서 + 작성자에서 비슷한 (포함)
-			// null 혹은 ' ' 검색하지 않음
-			//String searchWord = " ";
-			//String searchWord = null;
-			String searchWord = "a";			
-			
-			// current , limit / 2 ==> A , current - A = start,  current + A = end
-			// 현재 페이지 번호
-			int currentPage = 1;
-			int totalCnt = service.selectOneCount(searchWord);
-			int totalPage = (totalCnt%BOARD_LIMIT==0)?
-					(totalCnt/BOARD_LIMIT) : 
-					(totalCnt/BOARD_LIMIT) + 1;
-			int startPage = (currentPage%page_LIMIT==0) ?
-					(currentPage/page_LIMIT -1)*page_LIMIT + 1 :
-					(currentPage/page_LIMIT   )*page_LIMIT + 1;
-			int endPage = (startPage + page_LIMIT > totalPage) ?
-					totalPage : 
-					(startPage + page_LIMIT);
-			
-			Map<String, Integer> map = new HashMap<String, Integer>();
-			map.put("totalPage", totalPage);
-			map.put("startPage", startPage);
-			map.put("endPage", endPage);
-			map.put("currentPage", currentPage);
-			
-			// 이걸 사용할 경우 jsp 에서 ${}로 지칭 가능
-			mv.addObject("pageInfo", map); // setAttribute
-						
-			/*
-			 * mv.addObject("totalPage", totalPage); 
-			 * mv.addObject("currentPage",currentPage); 
-			 * mv.addObject("startPage", startPage); 
-			 * mv.addObject("endPage", endPage);
-			 */
-			
-			/*
-			 * req.setAttribute("totalPage", totalPage); req.setAttribute("startPage",
-			 * startPage); req.setAttribute("endPage", endPage);
-			 * req.setAttribute("currentPage", currentPage);
-			 * 
-			 */
+		// TODO
+		int currentPage = 2;
+		int totalCnt = service.selectOneCount(searchWord);
+		int totalPage = (totalCnt%BOARD_LIMIT==0)?
+				(totalCnt/BOARD_LIMIT) : 
+				(totalCnt/BOARD_LIMIT) + 1;
+		int startPage = (currentPage%PAGE_LIMIT==0) ?
+				(currentPage/PAGE_LIMIT -1)*PAGE_LIMIT + 1 :
+				(currentPage/PAGE_LIMIT   )*PAGE_LIMIT + 1;
+		int endPage = (startPage + PAGE_LIMIT > totalPage) ?
+				totalPage : 
+				(startPage + PAGE_LIMIT);
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("totalPage", totalPage);
+		map.put("startPage", startPage);
+		map.put("endPage", endPage);
+		map.put("currentPage", currentPage);
+		mv.addObject("pageInfo", map);
 		
-			// 이걸 사용할 경우 jsp 에서 ${}로 지칭 가능
-			mv.addObject("boardlist", service.selectList(currentPage, BOARD_LIMIT, searchWord) );
-			mv.setViewName("board/list");
-			
-			return mv;
+//		mv.addObject("totalPage", totalPage);
+//		mv.addObject("startPage", startPage);
+//		mv.addObject("endPage", endPage);
+//		mv.addObject("currentPage", currentPage);
+		
+
+		
+		mv.addObject("boardlist", service.selectList(currentPage, BOARD_LIMIT, searchWord));
+		mv.setViewName("board/list");
+		return mv;
 		}
 		
 //		@RequestMapping(value = "/board/update", method = RequestMethod.GET)
@@ -125,12 +125,17 @@ public class BoardController {
 		}
 		
 		@GetMapping("/read")
-		public void viewReadBoard() {
+		public ModelAndView viewReadBoard(
+				ModelAndView mv ,
+				@RequestParam("boardNum") int boardNum
+				) {
 			//TODO
-			int boardNum = 1 ;
 			String writer = "user22";
 			BoardVo vo = service.selectOne(boardNum, writer);
-			 
+			 mv.addObject("board", vo);
+			 mv.setViewName("board/read");
+			
+			return mv;
 		}
 
 		// 원글 작성 페이지 이동
@@ -190,6 +195,25 @@ public class BoardController {
 			
 			return mv;		
 		}
+		
+		@PostMapping("/insertReplyAjax")
+		@ResponseBody
+		public String insertReplyAjax(BoardVo vo) {
+			
+			/*
+			 * int boardNum= 4; // 원본글의 번호
+			 * 
+			 * vo.setBoardContent("임시답내용"); vo.setBoardTitle("임시답제목");
+			 * vo.setBoardWriter("user11");
+			 */
+				vo.setBoardWriter("user11");
+			//mv.setViewName("board/insert"); 이게 return 값의 주소를 정하게 되는 구문 
+			
+			service.insert(vo);
+			
+			return "ok";
+		}
+		
 		
 //		@RequestMapping(value = "/boardinsert")
 		@RequestMapping("/test")

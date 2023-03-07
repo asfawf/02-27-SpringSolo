@@ -40,7 +40,7 @@ public class BoardServiceImp implements BoardService{
 		
 		BoardVo result= dao.selectOne(boardNum);
 		
-		if(result.getBoardWriter().equals(writer))
+		if(result != null && result.getBoardWriter().equals(writer))
 		{
 			dao.updateReadCount(boardNum);
 		}
