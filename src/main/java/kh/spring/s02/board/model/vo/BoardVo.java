@@ -5,6 +5,7 @@ import java.sql.Date;
 import org.springframework.stereotype.Component;
 
 @Component
+
 public class BoardVo {
 	private int boardNum;
 	private String boardTitle;

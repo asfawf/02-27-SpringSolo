@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import kh.spring.s02.board.Controller.BoardController;
+import kh.spring.s02.board.controller.BoardController;
 import kh.spring.s02.board.model.vo.BoardVo;
 
 @Repository

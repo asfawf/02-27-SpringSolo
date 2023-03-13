@@ -14,6 +14,8 @@
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
+	<!-- repository 위치  -->
+
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
@@ -174,6 +176,29 @@
     		<artifactId>gson</artifactId>
     		<version>2.8.9</version>
 		</dependency> 
+		
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.18.26</version>
+		    <scope>provided</scope>
+		</dependency>
+	
+
+		<!-- File Upload 밑의 것과 꼭 같이 있어야 한다.-->
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.4</version>
+		</dependency>
+		<!-- File Upload 위의 것과 꼭 같이 있어야 한다.-->
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.6</version>
+		</dependency>
+
 
 	</dependencies>
 	<build>
