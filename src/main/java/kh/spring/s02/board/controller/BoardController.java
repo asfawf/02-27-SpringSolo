@@ -149,15 +149,23 @@ public class BoardController {
 	public ModelAndView doInsertBoard(
 			MultipartHttpServletRequest multiReq
 			, @RequestParam(name = "report", required = false) MultipartFile multi // report 는
-			, HttpServletRequest req
+			, HttpServletRequest request
 			, ModelAndView mv
 			, BoardVo vo) {
 		// common 의 FileUtil.jsp 와 연동
-		System.out.println("#####################여기여기");
-		
+		Map<String, String> filePath;
+		List<Map<String, String>> fileListPath;
+		try {
+			fileListPath = new FileUtil().saveFileList(multiReq, request, null);
+			filePath = new FileUtil().saveFile(multi, request, null);
+			vo.setBoardOriginalFilename(filePath.get("original"));
+			vo.setBoardRenameFilename(filePath.get("rename"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		vo.setBoardWriter("user22");  //TODO
 		int result = service.insert(vo);
 		return mv;
-
 		// @ExptionHandler
 	}
 
