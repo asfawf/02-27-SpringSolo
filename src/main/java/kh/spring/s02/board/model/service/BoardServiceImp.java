@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kh.spring.s02.board.model.dao.BoardDao;
 import kh.spring.s02.board.model.vo.BoardVo;
@@ -15,6 +16,7 @@ public class BoardServiceImp implements BoardService{
 	private BoardDao dao;
 
 	@Override
+	@Transactional
 	public int insert(BoardVo vo) {
 		// 어떤 값도 채워지지 않을 경우 기본 값은 0 
 		if(vo.getBoardNum() != 0) {
@@ -40,7 +42,7 @@ public class BoardServiceImp implements BoardService{
 		
 		BoardVo result= dao.selectOne(boardNum);
 		
-		if(result.getBoardWriter().equals(writer))
+		if(result != null && result.getBoardWriter().equals(writer))
 		{
 			dao.updateReadCount(boardNum);
 		}
@@ -73,6 +75,19 @@ public class BoardServiceImp implements BoardService{
 	@Override
 	public List<BoardVo> selectList(int currentPage, int limit, String searchWord) {
 		return dao.selectList(currentPage, limit, searchWord);	
+	}
+
+	
+	@Override
+	public List<BoardVo> selectReplyList(int boardNum) {
+		
+		return dao.selectReplyList(boardNum);
+	}
+
+	@Override
+	public List<BoardVo> selectReplyList(int boardNum, int currentPage, int limit) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
