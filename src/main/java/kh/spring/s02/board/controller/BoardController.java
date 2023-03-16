@@ -14,9 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,6 +40,12 @@ public class BoardController {
 	@Autowired
 	private BoardService service;
 
+	
+	@Autowired
+	@Qualifier("fileUtil")
+	private FileUtil fileUtil;
+	
+	
 	private final static int BOARD_LIMIT = 5;
 	private final static int PAGE_LIMIT = 3;
 	private final static String UPLOAD_FOLDER = "\\resources\\fileupload";
@@ -118,8 +126,18 @@ public class BoardController {
 		return;
 	}
 
-	@GetMapping("/read")
-	public ModelAndView viewReadBoard(ModelAndView mv, @RequestParam("boardNum") int boardNum) {
+	
+	//1. board/read?boardNum=27&replyPage=3
+		// location.href= "board/read?boardNum=${boardNum}&replyPage=${replyPage}"
+	//2. /board/read/27/3 	
+		// location.href= "board/${boardNum}/${replyPage} "
+	@GetMapping("/read") // @GetMapping("/read/{boardNum}") , @GetMapping("/read/{boardNum}/{replyPage}") 
+	public ModelAndView viewReadBoard(
+			ModelAndView mv
+			, @RequestParam("boardNum") int boardNum
+			// , @PathVariable int boardNum
+			// , @PathVariable int replyPage
+		) {
 		// TODO
 		String writer = "user22";
 
@@ -151,13 +169,14 @@ public class BoardController {
 			, @RequestParam(name = "report", required = false) MultipartFile multi // report 는
 			, HttpServletRequest request
 			, ModelAndView mv
-			, BoardVo vo) {
+			, BoardVo vo
+			) {
 		// common 의 FileUtil.jsp 와 연동
 		Map<String, String> filePath;
 		List<Map<String, String>> fileListPath;
 		try {
-			fileListPath = new FileUtil().saveFileList(multiReq, request, null);
-			filePath = new FileUtil().saveFile(multi, request, null);
+			fileListPath = fileUtil.saveFileList(multiReq, request, null);
+			filePath = fileUtil.saveFile(multi, request, null);
 			vo.setBoardOriginalFilename(filePath.get("original"));
 			vo.setBoardRenameFilename(filePath.get("rename"));
 		} catch (Exception e) {
@@ -197,8 +216,16 @@ public class BoardController {
 
 	@PostMapping("/insertReplyAjax")
 	@ResponseBody
-	public String insertReplyAjax(BoardVo vo) {
+	public String insertReplyAjax(
+			BoardVo vo
+			, MultipartFile report // 이렇게 하면 파일이 넘어옴
+		) {
 
+		if(report != null) {
+			System.out.println(report.getOriginalFilename());
+		}else {
+			System.out.println("파일 없음");
+		}
 		/*
 		 * int boardNum= 4; // 원본글의 번호
 		 * 

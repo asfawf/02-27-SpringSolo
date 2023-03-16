@@ -11,12 +11,21 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+@Component("fileUtil")
+@PropertySource("classpath:properties/kh2.properties")
 public class FileUtil {
-	private final static String UPLOAD_FOLDER = "\\resources\\uploadfiles";
-
+	
+	//위에서 지정한 Properties 에서 local.repository의 값을 UPLOAD_FOLDER 에 넣어라
+	@Value("${local.repository}")
+	private String UPLOAD_FOLDER;
+	
+	
 	/***
 	 * a
 	 * 
