@@ -131,7 +131,7 @@ public class BoardController {
 		// location.href= "board/read?boardNum=${boardNum}&replyPage=${replyPage}"
 	//2. /board/read/27/3 	
 		// location.href= "board/${boardNum}/${replyPage} "
-	@GetMapping("/read") // @GetMapping("/read/{boardNum}") , @GetMapping("/read/{boardNum}/{replyPage}") 
+	@GetMapping("/read/{boardNum}")// @GetMapping("/read") , @GetMapping("/read/{boardNum}/{replyPage}") 
 	public ModelAndView viewReadBoard(
 			ModelAndView mv
 			, @RequestParam("boardNum") int boardNum

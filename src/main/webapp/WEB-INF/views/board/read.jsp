@@ -11,6 +11,7 @@
 	<script src="https://code.jquery.com/jquery-3.6.3.js" ></script>
 </head>
 <body>
+
 	<h1>${board.boardNum } 게시글</h1> 
 	<div>
 	<p> ${board.boardTitle }</p>
@@ -21,6 +22,30 @@
 	<div>
 	<img src="${cpath }${uploadpath}${board.boardRenameFilename }">
 	</div>
+	
+	<!-- 첨부 파일을 모두 display -->
+	<%-- <c:forEach varStatus="vs" items="${boardFileList }" var="boardfile">
+		<p>${boardfile.originalFilename}</p>
+		<img src="${cpath }${uploadpath}${boardfile.renameFilename}">
+	</c:forEach>
+	 --%>
+	
+	<c:forEach varStatus="vs" items="${board.boardFileList }" var="boardfile">
+		<p>${boardfile.originalFilename}</p>
+		<img src="${cpath }${uploadpath}${boardfile.renameFilename}">
+	</c:forEach>
+	
+	
+	
+	<div>		
+		<img src="${cpath }${uploadpath}/2번이미지">
+		<img src="${cpath }${uploadpath}/3번이미지">
+		<img src="${cpath }${uploadpath}/4번이미지">
+	</div>
+	
+	
+	
+	<!-- 답글 작성 -->
 	<form id="frmReply" enctype="multipart/form-data">
 	<fieldset>
 	 	<legend>답글작성</legend>

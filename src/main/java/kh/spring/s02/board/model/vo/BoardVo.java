@@ -1,11 +1,18 @@
 package kh.spring.s02.board.model.vo;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-@Component
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Component
+@Getter
+@Setter
+@ToString
 public class BoardVo {
 	private int boardNum;
 	private String boardTitle;
@@ -13,12 +20,17 @@ public class BoardVo {
 	private String boardContent;
 	private String boardOriginalFilename;
 	private String boardRenameFilename;
+
+	//private BoardFileVo BoardMainFile;
+	
 	private Date boardDate;
 	private int boardLevel; // 
 	private int boardRef; // 원본글의 번호 
 	private int boardReplySeq;
 	private int boardReadcount;
 
+	private List<BoardFileVo> boardFileList;
+	
 	public int getBoardNum() {
 		return boardNum;
 	}
